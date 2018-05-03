@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+    xmlns:converter="clr-namespace:AXA.Converters;assembly=AXA"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:effect="clr-namespace:AXA.Effects;assembly=AXA"
+    x:Class="AXA.Pages.ListingContentView">
+    <ContentView.Content>
+
+        <StackLayout Orientation="Vertical">
+            
+        <ListView x:Name="list" IsVisible="{Binding IsLoading,Converter={converter:BooleanNegateConverter}}" IsPullToRefreshEnabled="{Binding IsRefreshEnabled}" ItemTapped="Handle_ItemTapped" SelectedItem="{Binding SelectedItem}" IsRefreshing="{Binding IsRefreshing}" Margin="0" ItemsSource="{Binding ItemsSource}" RefreshCommand="{Binding RefreshCommand}" CachingStrategy="RecycleElement" HasUnevenRows="true" SeparatorVisibility="None"  >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell BindingContextChanged="Handle_BindingContextChanged">
+
+                            <StackLayout BackgroundColor="{Binding BackColor}" Margin="0" Orientation="Vertical" Padding="20" Spacing="10" >
+
+                            <StackLayout Orientation="Horizontal" Spacing="10" >
+                              <BoxView WidthRequest="7" VerticalOptions="FillAndExpand" BackgroundColor="#1380c1" />  
+                              <Label Text="{Binding Title}" FontSize="20" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" TextColor="{StaticResource textDark}"  />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" Spacing="15" >
+                                <ffimageloading:CachedImage x:Name="image" HeightRequest="100" WidthRequest="80" Aspect="AspectFill" LoadingPlaceholder="placeholder.png" ErrorPlaceholder="placeholder.png" DownsampleToViewSize="true" BitmapOptimizations="false" FadeAnimationEnabled="true" VerticalOptions="Start" HorizontalOptions="Start" >
+                                        <ffimageloading:CachedImage.BitmapOptimizations>
+                                            <OnPlatform x:TypeArguments="x:Boolean" iOS="false" Android="true"/>
+                                        </ffimageloading:CachedImage.BitmapOptimizations>
+                                    </ffimageloading:CachedImage>
+                                <StackLayout Spacing="5" Orientation="Vertical">
+                                    <Label Text="{Binding Description}" FontSize="16" TextColor="{StaticResource textLight}" LineBreakMode="WordWrap" />
+                                    <Label Text="{Binding Date,StringFormat='{0:dd/MM/yyyy}'}" TextColor="{StaticResource textLight}" LineBreakMode="NoWrap" FontSize="16" /> 
+                                    <Label Text="{Binding PreviewText}" TextColor="{StaticResource textDark}" LineBreakMode="WordWrap" FontSize="16" >
+                                            <Label.Effects>
+                                                <effect:MultiLineEffect />
+                                            </Label.Effects>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                            
+                           </StackLayout>
+                            
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+                <ListView.Header>
+                    <Frame x:Name="frame" Margin="0" HasShadow="false" Padding="0" BackgroundColor="Transparent" CornerRadius="0">
+                        <Frame.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" Android="55" iOS="55"/>
+                        </Frame.HeightRequest> 
+                        <Frame.Margin>
+                            <OnPlatform x:TypeArguments="Thickness" iOS="0" Android="0,0,0,10" />
+                        </Frame.Margin>
+                        <SearchBar x:Name="search" Text="{Binding SearchQuery,Mode=TwoWay}" Placeholder="Search" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    </Frame>
+                </ListView.Header>
+
+            </ListView>
+
+              <forms:AnimationView 
+    x:Name="animationView" 
+    Animation="animation3.json" 
+    Loop="true"
+    IsVisible="{Binding IsLoading}"
+    Scale="1.8"
+    AutoPlay="true" 
+    HeightRequest="80"
+    Margin="0"
+    WidthRequest="80"
+    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+            />
+            
+        <!--  <ActivityIndicator  IsRunning="true" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <ActivityIndicator.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="40" Android="75"/>
+                </ActivityIndicator.HeightRequest>
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="40" Android="75"/>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>-->
+            
+       </StackLayout>
+    </ContentView.Content>
+</ContentView>

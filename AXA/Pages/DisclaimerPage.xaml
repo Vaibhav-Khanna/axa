@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m16="clr-namespace:Messier16.Forms.Controls;assembly=Messier16.Forms.Controls" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="AXA.Pages.DisclaimerPage"
+    BackgroundColor="{StaticResource primary}"
+    Title="Disclaimer" >
+    <ContentPage.Content>
+
+        <StackLayout BackgroundColor="White" Orientation="Vertical" Padding="0" Margin="0" Spacing="0">
+            
+        
+        <ScrollView VerticalOptions="FillAndExpand" Orientation="Vertical" Padding="20" >
+
+                <StackLayout Orientation="Vertical" Spacing="20" >
+
+                <ffimageloading:CachedImage Source="Logo.jpg" Aspect="AspectFit" DownsampleToViewSize="true" BitmapOptimizations="true" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start" >
+                        <ffimageloading:CachedImage.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" Android="100" iOS="100" />
+                        </ffimageloading:CachedImage.HeightRequest>
+                    </ffimageloading:CachedImage>
+                    
+                <Label Text="Welcome to AXA Investment Managers Insight app." FontAttributes="Bold" />
+
+                <Label Text="Welcome to AXA Investment Managers' Insight app., dedicated to professional investors. The content you can find in this application is only available in English." />
+
+                <Label Text="AXA Investment Managers is a global asset management company combining rigorous risk monitoring with expertise across multiple asset classes to help clients meet their financial needs. With approximately €666 billion in assets under management as of the end of March 2016, AXA 1M employs over 2,370 people around the world and operates out of 30 offices in 22 countries. AXA IM is part of the AXA Group, a global leader in financial protection and wealth management." />
+
+                <Label FontAttributes="Bold" Text="Important Information" />
+
+                <Label Text="Please read carefully this important information if you do not agree to any part of the below information please do not accept and enter the app." />
+
+                <StackLayout Spacing="10" Orientation="Horizontal">
+
+                    <m16:Checkbox TickColor="White" CheckboxBackgroundColor="{StaticResource primary}" VerticalOptions="Start" TranslationY="5" Checked="{Binding AgreeFirstTerm}">
+                            <m16:Checkbox.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double" Android="25" iOS="20" />
+                            </m16:Checkbox.HeightRequest>
+                             <m16:Checkbox.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double" Android="25" iOS="20" />
+                            </m16:Checkbox.WidthRequest>
+                    </m16:Checkbox>
+                      
+                    <Label Text="I am a Professional Client / Tied Agent as defined in the Markets in Financial Instruments Directive (MiFlD) published by the European Commission in 2006" />
+                                          
+                </StackLayout>
+
+                <Label Text="(criteria laid down in Annex Il ) or an authorised Financial Advisor. I therefore affirm that I have the required investment knowledge and experience and understanding including risk incurred by investments to access this app." />
+
+                <Label Text="And"/>
+
+                 <StackLayout Spacing="10" Orientation="Horizontal">
+
+                    <m16:Checkbox TickColor="White" CheckboxBackgroundColor="{StaticResource primary}" VerticalOptions="Start" TranslationY="5" Checked="{Binding AgreeSecondTerm}">
+                             <m16:Checkbox.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double" Android="25" iOS="20" />
+                            </m16:Checkbox.HeightRequest>
+                             <m16:Checkbox.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double" Android="25" iOS="20" />
+                            </m16:Checkbox.WidthRequest>
+                        </m16:Checkbox>
+
+                    <Label Text="I acknowledge that the content of this application is for educational and information purposes only and should not be taken as an advice or recommendation to support an investment decision." />
+
+                </StackLayout>
+
+                <Label Text="The information provided is considered to be accurate at the time of writing, but no warranty of accuracy is given and no liability in respect of any error or omission is accepted. The opinions expressed are those held by AXA 1M at the time of publication and are subject to change without notice. When the 2 boxes are checked an ''Accept'' button will be enabled to validate the choices and will allow the client to access the app." />
+                
+            </StackLayout>
+        </ScrollView>
+
+        <Button Command="{Binding AcceptCommand}" IsEnabled="{Binding IsAccept}" Text="Accept" FontSize="20" TextColor="White" HeightRequest="55" BackgroundColor="{StaticResource primary}" CornerRadius="0" >
+                <Button.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double" Android="60" iOS="55" />
+                </Button.HeightRequest>
+            </Button>
+            
+            </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

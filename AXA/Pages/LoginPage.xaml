@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="AXA.Pages.LoginPage"
+    xmlns:pages="clr-namespace:AXA.Renderers;assembly=AXA"
+    xmlns:behave="clr-namespace:AXA.Behaviours;assembly=AXA"
+
+    Title="Log in to your account">
+   
+    <ContentPage.Content>
+    <ScrollView Orientation="Vertical">
+    <ScrollView.Padding>
+        <OnIdiom x:TypeArguments="Thickness" Phone="15" Tablet="150,40,150,40" />
+    </ScrollView.Padding>
+            
+    <StackLayout Padding="0" Spacing="20" Orientation="Vertical">
+       
+        
+        <Grid BackgroundColor="Gray" VerticalOptions="Start" RowSpacing="0.5" ColumnSpacing="0" Padding="0.5"  >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+                <RowDefinition Height="55" />              
+            </Grid.RowDefinitions>
+          
+                
+            <StackLayout Spacing="15" Grid.Row="0"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Orientation="Horizontal" Padding="0,0,20,0">
+                <BoxView x:Name="box" WidthRequest="5" Color="Transparent" VerticalOptions="FillAndExpand" />
+                <Label Text="Email" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" FontSize="20" />
+                <pages:CustomEntry x:Name="email" Text="{Binding Username,Mode=OneWayToSource}" Keyboard="Email" FontSize="20" TextColor="Black" VerticalOptions="Center" HorizontalOptions="FillAndExpand" >
+                  <pages:CustomEntry.Behaviors>
+                            <behave:EmailEntryBehaviour BoxColor="{x:Reference box}" />
+                   </pages:CustomEntry.Behaviors>          
+                </pages:CustomEntry>
+            </StackLayout>
+
+            <StackLayout Spacing="20" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Orientation="Horizontal" Padding="20,5,20,5">
+                <Label Text="Password" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" FontSize="20" />
+                <pages:CustomEntry x:Name="password" Text="{Binding Password,Mode=OneWayToSource}" IsPassword="true" FontSize="20" TextColor="Black" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+           
+        </Grid>
+
+            <Button x:Name="btlogin" VerticalOptions="Start" Command="{Binding LoginCommand}" Text="Log in" FontSize="20" BackgroundColor="{StaticResource primary}" CornerRadius="0" TextColor="White" >
+                <Button.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="45"/>
+                </Button.HeightRequest>
+            </Button>
+            
+        </StackLayout>
+     </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
