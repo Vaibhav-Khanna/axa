@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+    x:Class="AXA.Helpers.DialogLayout"
+    HasSystemPadding="false" InputTransparent="false" CloseWhenBackgroundIsClicked="false" >
+    <pages:PopupPage.Content>
+         <Frame HorizontalOptions="Center" OutlineColor="Transparent" Padding="10" BackgroundColor="White" VerticalOptions="Center" CornerRadius="10" HasShadow="false" >
+
+         <StackLayout Spacing="5" Padding="0" Margin="0" VerticalOptions="Center" HorizontalOptions="Center" Orientation="Vertical" >
+                
+           
+            <forms:AnimationView 
+    x:Name="animationView" 
+    Animation="animation3.json" 
+    Loop="true"
+    Scale="1.8"
+    AutoPlay="true" 
+    HeightRequest="80"
+    Margin="0"
+    WidthRequest="80"
+    HorizontalOptions="Center" VerticalOptions="Center"
+            />
+
+                <Label x:Name="textLb" TextColor="Black" FontAttributes="Bold" FontSize="16" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" WidthRequest="120" LineBreakMode="WordWrap" /> 
+                
+             </StackLayout>
+         </Frame>
+    </pages:PopupPage.Content> 
+</pages:PopupPage>

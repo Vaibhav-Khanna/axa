@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AXA.App">
+    <Application.Resources>
+        <!-- Application resource dictionary -->
+
+         <ResourceDictionary>
+           
+         <Color x:Key="backgroundLight">#f4f4f4</Color>
+         <Color x:Key="backgroundDark">#e6e6e6</Color>
+         <Color x:Key="white">#ffffff</Color>
+         <Color x:Key="textLight">#868686</Color>
+         <Color x:Key="textDark">#000000</Color>
+         <Color x:Key="primary">#123781</Color>
+         <Color x:Key="primaryLight">#27498c</Color>
+
+            
+         </ResourceDictionary>
+            
+    </Application.Resources>
+</Application>

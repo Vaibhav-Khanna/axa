@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:AXA.Pages;assembly=AXA"
+    x:Class="AXA.Pages.PublicationsListPage"
+    Title="{Binding Title}" >
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem x:Name="search" Icon="search.png" Text="Search" Command="{Binding SearchCommand}" Clicked="Handle_Clicked" />-->
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <Grid Padding="0" ColumnSpacing="0" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition>          
+                    <ColumnDefinition.Width>
+                        <OnIdiom x:TypeArguments="GridLength" Phone="0" Tablet="*" />
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+
+             <pages:ListingContentView x:Name="listing" Grid.Column="0" />
+            
+            <pages:PublicationDetailView  Grid.Column="1" >              
+            </pages:PublicationDetailView>
+                                   
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

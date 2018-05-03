@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="AXA.Pages.SubscriptionPage"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="White"
+    Title="My Subscription">
+    <ContentPage.Content>
+         <ScrollView VerticalOptions="FillAndExpand" Orientation="Vertical" Padding="20" >
+            <StackLayout Orientation="Vertical" Spacing="15" >
+
+                 <ffimageloading:CachedImage Source="Logo.jpg" Aspect="AspectFit" DownsampleToViewSize="true" BitmapOptimizations="true" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start" >
+                        <ffimageloading:CachedImage.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" Android="100" iOS="100" />
+                        </ffimageloading:CachedImage.HeightRequest>
+                    </ffimageloading:CachedImage>
+                    
+                <Label Text="AXA Im Insight personal account" FontAttributes="Bold" />
+
+                <Label Text="Welcome to AXA Investment Managers' Insight app., dedicated to professional investors. The content you can find in this application is only available in English. to AXA Investment Managers' Insight app., dedicated to professional investors. The content you can find in this application is only available in English." />
+
+                <Label FontAttributes="Bold" Text="Personal Data Protection" />
+
+                <Label Text="Please read carefully this important information if you do not agree to any part of the below information please do not accept and enter the app. to AXA Investment Managers' Insight app., dedicated to professional investors. The content you can find in this application is only available in English." />
+
+                <Button x:Name="btsignup" Margin="0,20,0,0" Command="{Binding SignupCommand}" Text="Create your free account" FontSize="20" BackgroundColor="{StaticResource primary}" CornerRadius="0" TextColor="White" >
+                <Button.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="45"/>
+                </Button.HeightRequest>
+                </Button>
+                
+                <Label Text="or" FontSize="16" HorizontalOptions="CenterAndExpand" />
+
+                <Button x:Name="btlogin" Command="{Binding LoginCommand}" Text="Login to your account" FontSize="20" BackgroundColor="{StaticResource primary}" CornerRadius="0" TextColor="White" >
+                <Button.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="55" Android="45"/>
+                </Button.HeightRequest>
+                </Button>
+                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

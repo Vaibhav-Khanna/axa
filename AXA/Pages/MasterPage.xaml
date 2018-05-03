@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="AXA.Pages.MasterPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="White" Spacing="0" Orientation="Vertical" >
+
+           <ffimageloading:CachedImage Source="{Binding HeaderImage}" DownsampleToViewSize="true" BitmapOptimizations="true" BackgroundColor="White" HeightRequest="120" HorizontalOptions="FillAndExpand" />
+          
+
+            <ListView x:Name="listView" CachingStrategy="RetainElement" ItemsSource="{Binding Items}" ItemTapped="Handle_ItemTapped" HasUnevenRows="true" BackgroundColor="{StaticResource white}" SeparatorVisibility="Default" SeparatorColor="Gray" IsGroupingEnabled="true" >
+                <ListView.SeparatorVisibility>
+                    <OnPlatform x:TypeArguments="SeparatorVisibility" Android="None" iOS="Default"/>
+                </ListView.SeparatorVisibility>
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                   <ViewCell Height="35">
+                        <StackLayout HeightRequest="35" Orientation="Vertical" HorizontalOptions="FillAndExpand" Padding="0" VerticalOptions="FillAndExpand" >
+                                <StackLayout.BackgroundColor>
+                                    <OnPlatform x:TypeArguments="Color" Android="#ffffff" iOS="{StaticResource backgroundDark}" />
+                                </StackLayout.BackgroundColor>
+                             <BoxView Color="Gray" HeightRequest="0.5">
+                                    <BoxView.IsVisible>
+                                        <OnPlatform x:TypeArguments="x:Boolean" Android="false" iOS="true"/>
+                                    </BoxView.IsVisible>
+                                </BoxView>   
+                            <Label Margin="20,0,20,0" Text="{Binding GroupTitle}" FontSize="14" FontFamily="SFUIDisplay-Medium" TextColor="{StaticResource textLight}" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />  
+                             <BoxView Color="Gray" HeightRequest="0.5">
+                                     <BoxView.IsVisible>
+                                        <OnPlatform x:TypeArguments="x:Boolean" Android="false" iOS="true"/>
+                                    </BoxView.IsVisible>
+                                </BoxView>  
+                        </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="0" Orientation="Horizontal" HeightRequest="50" BackgroundColor="{StaticResource white}" Padding="0">
+                            <BoxView IsVisible="{Binding IsPublication}" BackgroundColor="{Binding Color}" Margin="0"  WidthRequest="10" VerticalOptions="FillAndExpand" />
+                            <Label Margin="25,0,0,0" FontSize="16" TextColor="{StaticResource textDark}" FontFamily="SFUIDisplay-Regular" Text="{Binding Title}" VerticalOptions="CenterAndExpand" />                           
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>             
+                <ListView.Footer>
+                    <BoxView BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" HeightRequest="20"/>
+                </ListView.Footer>
+           </ListView>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

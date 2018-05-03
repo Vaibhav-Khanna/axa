@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:converter="clr-namespace:AXA.Converters;assembly=AXA"
+    x:Class="AXA.Pages.PublicationDetailView"
+    BackgroundColor="{StaticResource backgroundLight}"
+    >
+    <ContentView.Content>
+
+        <StackLayout HorizontalOptions="FillAndExpand" Spacing="0" Orientation="Horizontal">
+
+           <BoxView HorizontalOptions="End" VerticalOptions="FillAndExpand" WidthRequest="0.5" BackgroundColor="Gray" >
+                <BoxView.IsVisible>
+                    <OnIdiom x:TypeArguments="x:Boolean" Phone="false" Tablet="true" />
+                </BoxView.IsVisible>
+            </BoxView>
+
+            
+         <Label IsVisible="{Binding SelectedItem,Converter={converter:NullNotVisibleConverter}}" Text="No item selected. Select an item to see its detail." Margin="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontSize="20" TextColor="Gray"  />
+
+            
+        <ScrollView IsVisible="{Binding SelectedItem,Converter={converter:NullVisibleConverter}}" HorizontalOptions="FillAndExpand" Orientation="Vertical" Padding="15" >
+            <StackLayout Spacing="15" VerticalOptions="Start" Orientation="Vertical">
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="Start" Spacing="10" >
+                    <BoxView WidthRequest="7" VerticalOptions="FillAndExpand" Color="#1380c1" HorizontalOptions="Start"/>
+                    <Label Text="{Binding SelectedItem.Title}" TextColor="{StaticResource textDark}" LineBreakMode="WordWrap" FontSize="22" VerticalOptions="Start" />
+                </StackLayout>
+
+                <Label Text="{Binding SelectedItem.Description}" VerticalOptions="Start" TextColor="{StaticResource textLight}" FontSize="16" LineBreakMode="WordWrap" />
+
+                    <Grid x:Name="grid" RowSpacing="15" ColumnSpacing="15" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                       <ffimageloading:CachedImage Grid.Row="0" Aspect="AspectFit"  Source="{Binding SelectedItem.Image}" Grid.Column="0" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" DownsampleToViewSize="false" BitmapOptimizations="false" >
+                            <ffimageloading:CachedImage.HeightRequest>
+                                <OnIdiom x:TypeArguments="x:Double" Phone="250" Tablet="350" />
+                            </ffimageloading:CachedImage.HeightRequest>
+                            <ffimageloading:CachedImage.BitmapOptimizations>
+                                <OnPlatform x:TypeArguments="x:Boolean" Android="true" iOS="false"/>
+                            </ffimageloading:CachedImage.BitmapOptimizations>
+                            <ffimageloading:CachedImage.DownsampleToViewSize>
+                                <OnPlatform x:TypeArguments="x:Boolean" Android="true" iOS="false" />
+                            </ffimageloading:CachedImage.DownsampleToViewSize>
+                        </ffimageloading:CachedImage>
+
+                        <StackLayout Grid.Row="0" VerticalOptions="Start" Grid.Column="1" Spacing="10">
+                            <StackLayout.Orientation>
+                                <OnIdiom x:TypeArguments="StackOrientation" Phone="Vertical" Tablet="Horizontal"/>
+                            </StackLayout.Orientation>
+
+                            <Button  Text="{Binding Text1}" IsEnabled="{Binding IsEnabled}" Command="{Binding ReadDownloadCommand}" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="50" FontSize="18" TextColor="White" BackgroundColor="{StaticResource primary}" />
+
+                            <Button Text="{Binding Text2}" IsEnabled="{Binding IsEnabled}" Command="{Binding ArchivePreviewCommand}" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start"  HeightRequest="50" FontSize="18" TextColor="White" BackgroundColor="{StaticResource primary}" />
+
+                        </StackLayout>                        
+
+                        <Label x:Name="lbpreview" Text="{Binding SelectedItem.PreviewText}" LineBreakMode="WordWrap" TextColor="{StaticResource primaryLight}" FontSize="14" >
+                            
+                        </Label>
+                        
+                    </Grid>
+
+            </StackLayout>
+        </ScrollView>
+                 
+            
+          </StackLayout>
+    </ContentView.Content>
+</ContentView>

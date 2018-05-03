@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:pages="clr-namespace:AXA.Pages;assembly=AXA"
+    xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+    x:Class="AXA.Pages.DownloadsPage"
+    Title="My Downloads">
+    <ContentPage.ToolbarItems>
+       <!-- <ToolbarItem x:Name="search" Icon="search.png" Text="Search" Command="{Binding SearchCommand}" />-->
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        
+         <Grid Padding="0" ColumnSpacing="0" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition>          
+                    <ColumnDefinition.Width>
+                        <OnIdiom x:TypeArguments="GridLength" Phone="0" Tablet="*" />
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+
+             <pages:ListingContentView Grid.Column="0" />
+
+             <StackLayout IsVisible="{Binding ShowDownload}" VerticalOptions="CenterAndExpand" Grid.Column="0">
+                 <forms:AnimationView 
+    x:Name="animationView" 
+    Animation="animation4.json" 
+    Loop="true"
+    Scale="1"
+    AutoPlay="true" 
+    HeightRequest="200"
+    Margin="0"
+    WidthRequest="200"
+    HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
+            />
+                <Label Text="It's lonley here ! Your downloads will appear here." LineBreakMode="WordWrap" Margin="30,0,30,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" TextColor="Gray" FontAttributes="Bold" FontSize="18" />
+            </StackLayout>
+            
+            
+            <pages:PublicationDetailView Grid.Column="1" >              
+            </pages:PublicationDetailView> 
+           
+                        
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
