@@ -5,16 +5,19 @@ using System;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using AXA.DataStore.Abstraction;
 using FreshMvvm;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace AXA
 {
-    public partial class App : Application
+    public partial class App : Xamarin.Forms.Application
     {
         public App()
         {
             InitializeComponent();
 
             BasePageModel.InitApp();
+
+            On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
 
             (FreshIOC.Container.Resolve<IStoreManager>()).VerifyToken();
 

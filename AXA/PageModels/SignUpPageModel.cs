@@ -39,9 +39,9 @@ namespace AXA.PageModels
 
             Dialog.ShowLoading();
 
-            var isEmailinUse = await StoreManager.ConfigurationStore.IsEmailAlreadyInUse(Email);
+            var notOccupied = await StoreManager.ConfigurationStore.IsEmailAlreadyInUse(Email);
 
-            if(isEmailinUse)
+            if(!notOccupied)
             {
                 Dialog.HideLoading();
                 await CoreMethods.DisplayAlert("Uh oh !", "The email is already in use with some other account. Try consider log in instead", "Ok");
@@ -58,7 +58,7 @@ namespace AXA.PageModels
 
                 CoreMethods.RemoveFromNavigation<SubscriptionPageModel>(true);
 
-                CoreMethods.RemoveFromNavigation<LoginPageModel>(true);
+                CoreMethods.RemoveFromNavigation<SignUpPageModel>(true);
             }
             else
             {

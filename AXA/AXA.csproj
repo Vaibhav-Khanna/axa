@@ -167,6 +167,7 @@
     <Compile Include="DataStore\Abstraction\Stores\IConfigurationStore.cs" />
     <Compile Include="DataStore\Implementation\Stores\ConfigurationStore.cs" />
     <Compile Include="Models\LoginResponse.cs" />
+    <Compile Include="Models\SignUpResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />

@@ -191,22 +191,9 @@ namespace AXA.DataStore.Implementation
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var token_data = JsonConvert.DeserializeObject<LoginResponse>(string_content);
+                    var isloggedin =  await LoginAsync(email, password);
 
-                    try
-                    {
-                        await BlobCache.UserAccount.InsertObject<LoginResponse>("LoginResponse", token_data);
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-
-                    Application.Current.Properties["IsLoggedIn"] = true;
-
-                    await Application.Current.SavePropertiesAsync();
-
-                    return true;
+                    return isloggedin;
                 }
                
             }
