@@ -19,13 +19,19 @@
 
         <Grid>           
            <syncfusion:SfPdfViewer x:Name="pdfViewerControl" EnableDocumentLinkAnnotation="false" AnnotationMode="None" IsTextSearchEnabled="true" IsTextSelectionEnabled="true" BackgroundColor="Black" AllowHyperlinkNavigation="true" InputFileStream="{Binding PdfDocumentStream}" Toolbar = "{StaticResource ToolbarSettings}"/>
-           <Frame x:Name="cross" Scale="0.9" HeightRequest="30" HasShadow="false" WidthRequest="30" BackgroundColor="#46474e" VerticalOptions="Start" HorizontalOptions="Start" CornerRadius="35" OutlineColor="Transparent">
+           <Frame x:Name="cross" Scale="1" HeightRequest="20" HasShadow="false" WidthRequest="20" BackgroundColor="#46474e" VerticalOptions="Start" HorizontalOptions="Start" CornerRadius="30" OutlineColor="Transparent">
                 <Frame.Scale>
                     <OnIdiom x:TypeArguments="x:Double" Phone="0.7" Tablet="0.9" />
                 </Frame.Scale>
                 <Frame.Margin>
-                    <OnIdiom x:TypeArguments="Thickness" Phone="5,5,0,0" Tablet="30,30,0,0" />
+                    <OnIdiom x:TypeArguments="Thickness" Phone="0,0,0,0" Tablet="30,30,0,0" />
                 </Frame.Margin>
+                <Frame.TranslationY>
+                    <OnIdiom x:TypeArguments="x:Double" Phone="-5" Tablet="-25" />
+                </Frame.TranslationY>
+                <Frame.TranslationX>
+                    <OnIdiom x:TypeArguments="x:Double" Phone="0" Tablet="-25" />
+                </Frame.TranslationX>
                 <Image Source="close.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding BackCommand}" />

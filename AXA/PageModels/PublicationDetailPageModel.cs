@@ -5,6 +5,7 @@ using Plugin.Share;
 using System.Threading.Tasks;
 using System.Linq;
 using Plugin.Connectivity;
+using AXA.Helpers;
 
 namespace AXA.PageModels
 {
@@ -12,8 +13,8 @@ namespace AXA.PageModels
     {
 
         public PublicationModel SelectedItem { get; set; }
-        public string Text1 { get; set; } = "Download";
-        public string Text2 { get; set; } = "Preview";
+		public bool CanArchive { get; set; }
+		public bool IsLikeEnabled { get; set; } = true;
         public bool IsEnabled { get; set; } = true;
         byte[] PDF;
 
@@ -30,16 +31,14 @@ namespace AXA.PageModels
                 if (pdf != null && pdf.Any())
                 {
                     PDF = pdf;
-
-                    Text1 = "Read";
-                    Text2 = "Archive";
+					CanArchive = true;
                 }
             }
         }
 
         public Command ReadDownloadCommand => new Command(async () =>
         {
-            if (Text1 == "Download")
+			if (PDF == null)
             {
                 if (!CrossConnectivity.Current.IsConnected)
                 {
@@ -47,19 +46,23 @@ namespace AXA.PageModels
                     return;
                 }
 
+				Dialog.ShowLoading();
+
                 // Download 
                 IsEnabled = false;
 
                 var pdf = await StoreManager.PublicationStore.DownloadPublication(SelectedItem.publication);
 
                 IsEnabled = true;
-                //
+				//
+
+				Dialog.HideLoading();
 
                 if (pdf != null && pdf.Any())
                 {
                     PDF = pdf;
-                    Text1 = "Read";
-                    Text2 = "Archive";
+					CanArchive = true;
+					await CoreMethods.PushPageModel<PdfViewerPageModel>(PDF, false, false);
                 }
             }
             else
@@ -70,7 +73,7 @@ namespace AXA.PageModels
 
         public Command ArchivePreviewCommand => new Command(async () =>
         {
-            if (Text2 == "Archive")
+			if (PDF!=null && CanArchive)
             {
                 // Archive or delete
                 IsEnabled = false;
@@ -82,41 +85,12 @@ namespace AXA.PageModels
 
                 if (isArchived)
                 {
-                    Text1 = "Download";
-                    Text2 = "Preview";
+					PDF = null;
+					CanArchive = false;
                     await CoreMethods.PopPageModel();
                 }
             }
-            else
-            {
-                if(!CrossConnectivity.Current.IsConnected)
-                {
-                    await CoreMethods.DisplayAlert("Not Connected", "You need to have an active internet connection to do this. If you are online and see this, try restart the application.", "Ok");
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(SelectedItem.publication.ExcerptPages))
-                {
-                    await CoreMethods.DisplayAlert("Not Available", "Preview is not available for this item.", "Ok");
-                    return;
-                }
-
-                // Download Preview
-                IsEnabled = false;
-
-                var pdf = await StoreManager.PublicationStore.DownloadPublication(SelectedItem.publication, true);
-
-                IsEnabled = true;
-                //
-
-                int startNumber = 2;
-
-                var numbers = SelectedItem.publication.ExcerptPages.Split(',').Select((arg) => Convert.ToInt32(arg.Trim())).OrderByDescending((arg) => arg);
-
-                startNumber = numbers.First();
-
-                await CoreMethods.PushPageModel<PdfViewerPageModel>(new Tuple<byte[],int>(pdf,startNumber), false, false);
-            }
+           
         });
 
         public Command ShareCommand => new Command(async () =>
@@ -129,5 +103,26 @@ namespace AXA.PageModels
             });
         });
 
+		public Command LikeCommand => new Command(async () =>
+        {
+            IsLikeEnabled = false;
+
+            var liked = await StoreManager.PublicationStore.LikePublication(SelectedItem.publication.Id);
+
+            IsLikeEnabled = true;
+
+            if (liked)
+            {
+                if (SelectedItem.LikeCount == null)
+                    SelectedItem.LikeCount = 0;
+
+                SelectedItem.LikeCount += 1;
+
+				SelectedItem.publication.CountLike = SelectedItem.LikeCount;
+
+				await StoreManager.PublicationStore.SavePublication(SelectedItem.publication);
+            }
+
+        });
     }
 }

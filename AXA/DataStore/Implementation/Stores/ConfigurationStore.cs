@@ -15,8 +15,37 @@ namespace AXA.DataStore.Implementation.Stores
 {
     public class ConfigurationStore : BaseStore<Configuration>, IConfigurationStore
     {
+		public async Task<List<Tuple<string, string>>> GetCategories()
+		{
+			try
+			{
+				var config = await GetConfiguration();
 
-        public async Task<Configuration> GetConfiguration(bool refresh = false)
+				if (config != null)
+				{
+					List<Tuple<string, string>> list = new List<Tuple<string, string>>();
+
+					foreach (var item in config?.Menus?.FirstOrDefault()?.Menu)
+					{
+						if (!string.IsNullOrEmpty(item.Option))
+						{
+							list.Add(new Tuple<string, string>(item.Option,item.Label));
+						}
+					}
+
+					return list;
+				}
+
+			}
+			catch(Exception)
+			{
+				
+			}
+
+			return null;
+		}
+
+		public async Task<Configuration> GetConfiguration(bool refresh = false)
         {
             Configuration item;
 
