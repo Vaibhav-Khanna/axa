@@ -13,6 +13,7 @@ using Syncfusion.SfPdfViewer.XForms.Droid;
 using Akavache;
 using Lottie.Forms.Droid;
 using Xamarin.Forms;
+using Plugin.HtmlLabel.Android;
 
 namespace AXA.Droid
 {
@@ -25,6 +26,8 @@ namespace AXA.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+
+			HtmlLabelRenderer.Initialize();
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 

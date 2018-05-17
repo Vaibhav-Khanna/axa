@@ -9,6 +9,7 @@ using UIKit;
 using Lottie.Forms.iOS;
 using Akavache;
 using Lottie.Forms.iOS.Renderers;
+using Plugin.HtmlLabel.iOS;
 
 namespace AXA.iOS
 {
@@ -17,6 +18,8 @@ namespace AXA.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+			HtmlLabelRenderer.Initialize();
+
             global::Xamarin.Forms.Forms.Init();
 
             CheckboxRenderer.Init();

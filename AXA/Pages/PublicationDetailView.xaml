@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:converter="clr-namespace:AXA.Converters;assembly=AXA"
+    xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
     x:Class="AXA.Pages.PublicationDetailView"
     BackgroundColor="{StaticResource backgroundLight}"
     >
@@ -31,7 +32,15 @@
 
                 <Label Text="{Binding SelectedItem.Description}" VerticalOptions="Start" TextColor="{StaticResource textLight}" FontSize="16" LineBreakMode="WordWrap" />
 
-                    <Grid x:Name="grid" RowSpacing="15" ColumnSpacing="15" >
+              
+                 <Label Text="{Binding SelectedItem.Date,StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Start" TextColor="{StaticResource textLight}" TranslationY="-10" FontSize="15" LineBreakMode="WordWrap" />
+
+                 <StackLayout TranslationY="-10" IsVisible="{Binding SelectedItem.ShowLike}" Orientation="Horizontal">
+                                            <Label Text="{Binding SelectedItem.Like}" FontSize="16" TextColor="{StaticResource primary}" />
+                                            <Image Source="like.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                 </StackLayout>   
+                    
+                    <Grid x:Name="grid" Margin="0,0,0,0" RowSpacing="15" ColumnSpacing="15" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -41,7 +50,8 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                       <ffimageloading:CachedImage Grid.Row="0" Aspect="AspectFit"  Source="{Binding SelectedItem.Image}" Grid.Column="0" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" DownsampleToViewSize="false" BitmapOptimizations="false" >
+                        <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                            <ffimageloading:CachedImage  Aspect="AspectFit"  Source="{Binding SelectedItem.Image}"  VerticalOptions="Start" HorizontalOptions="FillAndExpand" DownsampleToViewSize="false" BitmapOptimizations="false" >
                             <ffimageloading:CachedImage.HeightRequest>
                                 <OnIdiom x:TypeArguments="x:Double" Phone="250" Tablet="350" />
                             </ffimageloading:CachedImage.HeightRequest>
@@ -51,22 +61,33 @@
                             <ffimageloading:CachedImage.DownsampleToViewSize>
                                 <OnPlatform x:TypeArguments="x:Boolean" Android="true" iOS="false" />
                             </ffimageloading:CachedImage.DownsampleToViewSize>
-                        </ffimageloading:CachedImage>
+                          </ffimageloading:CachedImage>
+
+                           <StackLayout VerticalOptions="Start" Spacing="10" Orientation="Horizontal">
+                            <Button Text="Like " IsEnabled="{Binding IsLikeEnabled}" BackgroundColor="Transparent" VerticalOptions="Start" FontSize="18" Command="{Binding LikeCommand}" TextColor="{StaticResource primary}" />
+                       
+                            <Button Text="   Share   " BackgroundColor="Transparent" VerticalOptions="Start" FontSize="18" Command="{Binding ShareCommand}" TextColor="{StaticResource primary}" />
+                        </StackLayout>
+                            
+                        </StackLayout>
+                       
 
                         <StackLayout Grid.Row="0" VerticalOptions="Start" Grid.Column="1" Spacing="10">
                             <StackLayout.Orientation>
                                 <OnIdiom x:TypeArguments="StackOrientation" Phone="Vertical" Tablet="Horizontal"/>
                             </StackLayout.Orientation>
 
-                            <Button  Text="{Binding Text1}" IsEnabled="{Binding IsEnabled}" Command="{Binding ReadDownloadCommand}" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="50" FontSize="18" TextColor="White" BackgroundColor="{StaticResource primary}" />
+                            <Button  Text="Read" IsEnabled="{Binding IsEnabled}" Command="{Binding ReadDownloadCommand}" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="50" FontSize="18" TextColor="White" BackgroundColor="{StaticResource primary}" />
 
-                            <Button Text="{Binding Text2}" IsEnabled="{Binding IsEnabled}" Command="{Binding ArchivePreviewCommand}" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start"  HeightRequest="50" FontSize="18" TextColor="White" BackgroundColor="{StaticResource primary}" />
+                            <Button Text="Archive" IsVisible="{Binding CanArchive}" IsEnabled="{Binding IsEnabled}" Command="{Binding ArchivePreviewCommand}" CornerRadius="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start"  HeightRequest="50" FontSize="18" TextColor="{StaticResource primary}" BorderWidth="1" BorderColor="{StaticResource primary}" BackgroundColor="Transparent" />
 
                         </StackLayout>                        
 
-                        <Label x:Name="lbpreview" Text="{Binding SelectedItem.PreviewText}" LineBreakMode="WordWrap" TextColor="{StaticResource primaryLight}" FontSize="14" >
+                       
+                        
+                        <htmlLabel:HtmlLabel x:Name="lbpreview" Text="{Binding SelectedItem.PreviewText}" LineBreakMode="WordWrap" TextColor="{StaticResource primaryLight}" FontSize="14" >
                             
-                        </Label>
+                        </htmlLabel:HtmlLabel>
                         
                     </Grid>
 

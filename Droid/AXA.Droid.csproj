@@ -242,6 +242,15 @@
     <Reference Include="XLabs.Cryptography">
       <HintPath>..\packages\XLabs.Cryptography.2.0.5782\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Cryptography.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.5.1\lib\netstandard1.6\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.HtmlLabel.Android">
+      <HintPath>..\packages\Xam.Plugin.HtmlLabel.1.0.4\lib\MonoAndroid10\Plugin.HtmlLabel.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.HtmlLabel">
+      <HintPath>..\packages\Xam.Plugin.HtmlLabel.1.0.4\lib\MonoAndroid10\Plugin.HtmlLabel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AXA\AXA.csproj">
@@ -292,6 +301,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\android_icon.9.png" />
     <AndroidResource Include="Resources\drawable\splashscreen.axml" />
     <AndroidResource Include="Resources\drawable\placeholder.png" />
+    <AndroidResource Include="Resources\drawable\like.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderers\" />

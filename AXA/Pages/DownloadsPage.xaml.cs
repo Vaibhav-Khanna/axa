@@ -25,8 +25,8 @@ namespace AXA.Pages
             {
                 if (Device.Idiom == TargetIdiom.Tablet)
                 {
-                    ((DownloadsPageModel)BindingContext).PropertyChanged -= Handle_PropertyChanged;
-                    ((DownloadsPageModel)BindingContext).PropertyChanged += Handle_PropertyChanged;
+                    //((DownloadsPageModel)BindingContext).PropertyChanged -= Handle_PropertyChanged;
+                    //((DownloadsPageModel)BindingContext).PropertyChanged += Handle_PropertyChanged;
                 }
             }
         }

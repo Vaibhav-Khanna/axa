@@ -17,12 +17,13 @@ namespace AXA.PageModels
         public ObservableCollection<PublicationModel> AllItemsSource { get; set; }
         public ObservableCollection<PublicationModel> ItemsSource { get; set; }
         public bool IsRefreshEnabled { get; set; } = Device.RuntimePlatform == Device.Android;
-        public string Text1 { get; set; } = "Download";
-        public string Text2 { get; set; } = "Preview";
+		public bool CanArchive { get; set; }
+		public bool IsLikeEnabled { get; set; } = true;
         public bool IsSelected { get; set; } = false;
         public bool ShowDownload { get; set; } = false;
         public bool IsEnabled { get; set; } = true;
         byte[] PDF;
+		List<Tuple<string, string>> CategoryData { get; set; }
 
         [PropertyChanged.DoNotNotifyAttribute]
         string _query;
@@ -65,26 +66,35 @@ namespace AXA.PageModels
 
             var data = await StoreManager.PublicationStore.GetDownloadedPublications();
 
+			CategoryData = await StoreManager.ConfigurationStore.GetCategories();
+
             ItemsSource = new ObservableCollection<PublicationModel>();
 
             var accountId = Application.Current.Properties["AccountID"];
 
-            if (data != null && data.Any())
-                for (int i = 0; i < data.Count(); i++)
-                {
-                    var x = data.ElementAt(i);
+			if (data != null && data.Any())
+				for (int i = 0; i < data.Count(); i++)
+				{
+					var x = data.ElementAt(i);
+					string category = "";
 
-                    ItemsSource.Add(new PublicationModel()
-                    {
-                        Title = x.Title,
-                        Description = x.Author,
-                        Date = x.PublishedAt.DateTime,
-                        publication = x,
-                        BackColor = i % 2 == 0 ? "#eff2f3" : "#ffffff",
-                        PreviewText = StripHtmlTags(x.Description),
-                        Image = $"https://admin.axa-im-insight.com/kue/storage/{accountId}/documents/{x.Id}/pdf/thumbs/1.jpg"
-                    });
-                }
+					if (CategoryData != null && CategoryData.Any() && !string.IsNullOrEmpty(x.Category))
+					{
+						category = CategoryData.Where((arg) => arg.Item1 == x.Category)?.First()?.Item2;
+					}
+
+					ItemsSource.Add(new PublicationModel()
+					{
+						Title = x.Title,
+						LikeCount = x.CountLike,
+						Description = category + (string.IsNullOrEmpty(x.Author) ? " " : " by ") + x.Author,
+						Date = x.PublishedAt.DateTime,
+						publication = x,
+						BackColor = i % 2 == 0 ? "#eff2f3" : "#ffffff",
+						PreviewText = (x.Description),
+						Image = $"https://admin.axa-im-insight.com/kue/storage/{accountId}/documents/{x.Id}/pdf/thumbs/1.jpg"
+					});
+				}
 
             AllItemsSource = ItemsSource;
 
@@ -109,18 +119,13 @@ namespace AXA.PageModels
             else
                 ItemsSource = AllItemsSource;
         }
-
-		public string StripHtmlTags(string source)
-        {
-            if (string.IsNullOrWhiteSpace(source))
-                return source;
-            
-            return Regex.Replace(source, "<.*?>|&.*?;", string.Empty);
-        }
+  
         	
 		public Command RefreshCommand => new Command(async () =>
         {
-            var data = await StoreManager.PublicationStore.GetDownloadedPublications();
+            var data = await StoreManager.PublicationStore.GetDownloadedPublications();  
+
+			CategoryData = await StoreManager.ConfigurationStore.GetCategories();
 
             if (data != null && data.Any())
             {
@@ -128,22 +133,29 @@ namespace AXA.PageModels
 
                 var accountId = Application.Current.Properties["AccountID"];
 
-                if (data != null && data.Any())
-                    for (int i = 0; i < data.Count(); i++)
-                    {
-                        var x = data.ElementAt(i);
+				if (data != null && data.Any())
+					for (int i = 0; i < data.Count(); i++)
+					{
+						var x = data.ElementAt(i);
+						string category = "";
 
-                        ItemsSource.Add(new PublicationModel()
-                        {
-                            Title = x.Title,
-                            Description = x.Author,
-                            Date = x.PublishedAt.DateTime,
-                            publication = x,
-                            BackColor = i % 2 == 0 ? "#eff2f3" : "#ffffff",
-                            PreviewText = StripHtmlTags(x.Description),
-                            Image = $"https://admin.axa-im-insight.com/kue/storage/{accountId}/documents/{x.Id}/pdf/thumbs/1.jpg"
-                        });
-                    }
+						if (CategoryData != null && CategoryData.Any() && !string.IsNullOrEmpty(x.Category))
+						{
+							category = CategoryData.Where((arg) => arg.Item1 == x.Category)?.First()?.Item2;
+						}
+
+						ItemsSource.Add(new PublicationModel()
+						{
+							Title = x.Title,
+							LikeCount = x.CountLike,
+							Description = category + (string.IsNullOrEmpty(x.Author) ? " " : " by ") + x.Author,
+							Date = x.PublishedAt.DateTime,
+							publication = x,
+							BackColor = i % 2 == 0 ? "#eff2f3" : "#ffffff",
+							PreviewText = (x.Description),
+							Image = $"https://admin.axa-im-insight.com/kue/storage/{accountId}/documents/{x.Id}/pdf/thumbs/1.jpg"
+						});
+					}
 
                 AllItemsSource = ItemsSource;
 
@@ -160,21 +172,19 @@ namespace AXA.PageModels
 
         async void FetchDocument()
         {
-            var pdf = await StoreManager.PublicationStore.FetchPublication(SelectedItem.publication);
-             
+			var pdf = await StoreManager.PublicationStore.FetchPublication(SelectedItem.publication);
+
             if (pdf != null && pdf.Any())
             {
                 PDF = pdf;
 
-                Text1 = "Read";
-                Text2 = "Archive";
+                CanArchive = true;
             }
             else
             {
                 PDF = null;
 
-                Text1 = "Download";
-                Text2 = "Preview";
+                CanArchive = false;
             }
         }
 
@@ -189,13 +199,15 @@ namespace AXA.PageModels
 
         public Command ReadDownloadCommand => new Command(async () =>
         {
-            if (Text1 == "Download")
+			if (PDF == null)
             {
                 if (!CrossConnectivity.Current.IsConnected)
                 {
                     await CoreMethods.DisplayAlert("Not Connected", "You need to have an active internet connection to do this. If you are online and see this, try restart the application.", "Ok");
                     return;
                 }
+
+                Dialog.ShowLoading();
 
                 // Download 
                 IsEnabled = false;
@@ -205,24 +217,39 @@ namespace AXA.PageModels
                 IsEnabled = true;
                 //
 
+                Dialog.HideLoading();
+
                 if (pdf != null && pdf.Any())
                 {
                     PDF = pdf;
-                    Text1 = "Read";
-                    Text2 = "Archive";
+
+                    CanArchive = true;
+
+                    await CoreMethods.PushPageModel<PdfViewerPageModel>(PDF, false, false);
                 }
             }
             else
             {
-                await CoreMethods.PushPageModel<PdfViewerPageModel>(PDF, false, false);
+                if (PDF != null)
+                {
+                    CanArchive = true;
+                    await CoreMethods.PushPageModel<PdfViewerPageModel>(PDF, false, false);
+                }
+                else
+                {
+                    CanArchive = false;
+                }
             }
         });
 
         public Command ArchivePreviewCommand => new Command(async () =>
         {
-            if (Text2 == "Archive")
+			if (PDF != null && CanArchive)
             {
+
                 // Archive or delete
+                Dialog.ShowLoading();
+
                 IsEnabled = false;
 
                 var isArchived = await StoreManager.PublicationStore.ArchivePublication(SelectedItem.publication);
@@ -230,57 +257,34 @@ namespace AXA.PageModels
                 IsEnabled = true;
                 //
 
-                if (isArchived)
-                {
-                    Text1 = "Download";
-                    Text2 = "Preview";
+                Dialog.HideLoading();
 
-                    if (ItemsSource.Contains(SelectedItem))
-                        ItemsSource.Remove(SelectedItem);
+				if (isArchived)
+				{
+					PDF = null;
+					CanArchive = false;
 
-                    if(ItemsSource.Any())
-                        SelectedItem = ItemsSource.First();
-                    else
-                    {
-                        item = null;
-                        RaisePropertyChanged("SelectedItem");                     
-                    }
+					if (ItemsSource.Contains(SelectedItem))
+						ItemsSource.Remove(SelectedItem);
 
-                    if (ItemsSource.Any())
-                        ShowDownload = false;
-                    else
-                        ShowDownload = true;
-                }
+					if (ItemsSource.Any())
+						SelectedItem = ItemsSource.First();
+					else
+					{
+						item = null;
+						RaisePropertyChanged("SelectedItem");
+					}
+
+					if (ItemsSource.Any())
+						ShowDownload = false;
+					else
+						ShowDownload = true;
+				}
             }
             else
             {
-                if (!CrossConnectivity.Current.IsConnected)
-                {
-                    await CoreMethods.DisplayAlert("Not Connected", "You need to have an active internet connection to do this. If you are online and see this, try restart the application.", "Ok");
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(SelectedItem.publication.ExcerptPages))
-                {
-                    await CoreMethods.DisplayAlert("Not Available", "Preview is not available for this item.", "Ok");
-                    return;
-                }
-
-                // Download Preview
-                IsEnabled = false;
-
-                var pdf = await StoreManager.PublicationStore.DownloadPublication(SelectedItem.publication, true);
-
-                IsEnabled = true;
-                //
-
-                int startNumber = 2;
-
-                var numbers = SelectedItem.publication.ExcerptPages.Split(',').Select((arg) => Convert.ToInt32(arg.Trim())).OrderByDescending((arg) => arg);
-
-                startNumber = numbers.First();
-
-                await CoreMethods.PushPageModel<PdfViewerPageModel>(new Tuple<byte[], int>(pdf, startNumber), false, false);
+                PDF = null;
+                CanArchive = false;
             }
         });
 
@@ -294,5 +298,26 @@ namespace AXA.PageModels
             });
         });
 
+		public Command LikeCommand => new Command(async () =>
+        {
+            IsLikeEnabled = false;
+
+            var liked = await StoreManager.PublicationStore.LikePublication(SelectedItem.publication.Id);
+
+            IsLikeEnabled = true;
+
+            if (liked)
+            {
+                if (SelectedItem.LikeCount == null)
+                    SelectedItem.LikeCount = 0;
+
+                SelectedItem.LikeCount += 1;
+
+                SelectedItem.publication.CountLike = SelectedItem.LikeCount;
+
+                await StoreManager.PublicationStore.SavePublication(SelectedItem.publication);
+            }
+
+        });
     }
 }

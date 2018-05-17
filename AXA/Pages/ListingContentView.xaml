@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
     xmlns:converter="clr-namespace:AXA.Converters;assembly=AXA"
+    xmlns:htmlLabel="clr-namespace:Plugin.HtmlLabel;assembly=Plugin.HtmlLabel"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:effect="clr-namespace:AXA.Effects;assembly=AXA"
     x:Class="AXA.Pages.ListingContentView">
@@ -31,12 +32,20 @@
                                     </ffimageloading:CachedImage>
                                 <StackLayout Spacing="5" Orientation="Vertical">
                                     <Label Text="{Binding Description}" FontSize="16" TextColor="{StaticResource textLight}" LineBreakMode="WordWrap" />
-                                    <Label Text="{Binding Date,StringFormat='{0:dd/MM/yyyy}'}" TextColor="{StaticResource textLight}" LineBreakMode="NoWrap" FontSize="16" /> 
-                                    <Label Text="{Binding PreviewText}" TextColor="{StaticResource textDark}" LineBreakMode="WordWrap" FontSize="16" >
-                                            <Label.Effects>
+                                      
+                                        <Label Text="{Binding Date,StringFormat='{0:dd/MM/yyyy}'}" TextColor="{StaticResource textLight}" LineBreakMode="NoWrap" FontSize="16" /> 
+
+                                        <StackLayout IsVisible="{Binding ShowLike}" Orientation="Horizontal">
+                                            <Label Text="{Binding Like}" FontSize="16" TextColor="{StaticResource primary}" />
+                                            <Image Source="like.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                                        </StackLayout> 
+                                        
+                                    <htmlLabel:HtmlLabel Text="{Binding PreviewText}" TextColor="{StaticResource textDark}" LineBreakMode="WordWrap" FontSize="16" >
+                                            <htmlLabel:HtmlLabel.Effects>
                                                 <effect:MultiLineEffect />
-                                            </Label.Effects>
-                                    </Label>
+                                            </htmlLabel:HtmlLabel.Effects>
+                                    </htmlLabel:HtmlLabel>
+                                        
                                 </StackLayout>
                             </StackLayout>
                             

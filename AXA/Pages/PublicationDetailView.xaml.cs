@@ -22,7 +22,7 @@ namespace AXA.Pages
             }
             else
             {
-                Grid.SetRow(lbpreview, 1);
+                Grid.SetRow(lbpreview, 2);
                 Grid.SetColumn(lbpreview, 0);
                 Grid.SetColumnSpan(lbpreview, 2);
 

@@ -224,6 +224,15 @@
     <Reference Include="XLabs.Cryptography">
       <HintPath>..\packages\XLabs.Cryptography.2.0.5782\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Cryptography.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.10\lib\netstandard2.0\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.HtmlLabel">
+      <HintPath>..\packages\Xam.Plugin.HtmlLabel.1.0.4\lib\Xamarin.iOS10\Plugin.HtmlLabel.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.HtmlLabel.iOS">
+      <HintPath>..\packages\Xam.Plugin.HtmlLabel.1.0.4\lib\Xamarin.iOS10\Plugin.HtmlLabel.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AXA\AXA.csproj">
@@ -271,6 +280,7 @@
     <Compile Include="Renderers\RefreshListviewRenderer.cs" />
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />
     <Compile Include="Effects\MultiLineEffect.cs" />
+    <Compile Include="Renderers\HTMLlabelRender.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Logo.jpg" />
@@ -295,6 +305,7 @@
     <BundleResource Include="Resources\iconBack.png" />
     <BundleResource Include="Resources\placeholder.png" />
     <BundleResource Include="animation4.json" />
+    <BundleResource Include="Resources\like.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.1.444934\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.1.444934\build\netstandard1.0\Xamarin.Forms.targets')" />

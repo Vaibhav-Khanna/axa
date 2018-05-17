@@ -9,6 +9,8 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Linq;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace AXA.DataStore.Implementation.Stores
 {
@@ -85,14 +87,14 @@ namespace AXA.DataStore.Implementation.Stores
                 {
                     var downloadedKeys = keys?.Where((arg) => arg.Contains("Down:"));
 
-                    if (downloadedKeys != null && downloadedKeys.Any())
-                    {
-                        var downloadIds = downloadedKeys.Select((arg) => arg.Split(':')[1]);
+					if (downloadedKeys != null && downloadedKeys.Any())
+					{
+						var downloadIds = downloadedKeys.Select((arg) => arg.Split(':')[1]);
 
-                        var downloaded = await Storage.GetObjects<Publication>(downloadIds);
+						var downloaded = await Storage.GetObjects<Publication>(downloadIds);
 
-                        return downloaded.Select((arg) => arg.Value);
-                    }
+						return downloaded.Select((arg) => arg.Value).OrderByDescending((arg) => arg.PublishedAt);
+					}
                 }
 
             }
@@ -125,6 +127,8 @@ namespace AXA.DataStore.Implementation.Stores
             return items.OrderByDescending((arg) => arg.PublishedAt);
 		}
 
+
+
         public async Task<IEnumerable<Publication>> GetPublicationsByCategoryId(string publicationCategoryId, bool refresh = false)
         {
             IEnumerable<Publication> items;
@@ -148,7 +152,53 @@ namespace AXA.DataStore.Implementation.Stores
             return query_items;
         }
 
-        async Task<IEnumerable<Publication>> DownloadAndSave()
+		public async Task<bool> LikePublication(string id)
+		{
+			try
+            {
+                var _client = new HttpClient();
+				_client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Application.Current.Properties["Token"]);
+
+				var uriService = new Uri(Constants.EndUrl + "/publications/like/"+id);
+
+                var credentials = new JObject();
+				credentials["_id"] = id;             
+
+                var content = new StringContent(credentials.ToString(), Encoding.UTF8, "application/json");
+                var response = await _client.PostAsync(uriService, content);
+                var string_content = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {                  
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+		}
+
+		public async Task<bool> SavePublication(Publication publication)
+		{
+			try
+			{
+				await Storage.InsertObject<Publication>(publication.Id, publication);
+				return true;
+			}
+			catch(Exception)
+			{
+				
+			}
+
+			return false;
+		}
+
+		async Task<IEnumerable<Publication>> DownloadAndSave()
         {
             try
             {

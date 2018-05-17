@@ -12,6 +12,12 @@ namespace AXA.Models
 
         public string Title { get; set; }
 
+		public double? LikeCount { get; set; }
+
+		public string Like { get { return ShowLike ? LikeCount.ToString() : ""; } }
+
+		public bool ShowLike { get { return (LikeCount == null || LikeCount == 0) ? false : true; } }
+
         public string Description { get; set; }
 
         public DateTime Date { get; set; }

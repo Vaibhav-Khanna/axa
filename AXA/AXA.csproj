@@ -168,6 +168,7 @@
     <Compile Include="DataStore\Implementation\Stores\ConfigurationStore.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\SignUpResponse.cs" />
+    <Compile Include="Controls\HtmlLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
@@ -290,6 +291,12 @@
     </Reference>
     <Reference Include="XLabs.Cryptography">
       <HintPath>..\packages\XLabs.Cryptography.2.0.5782\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\XLabs.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.5.1\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.HtmlLabel">
+      <HintPath>..\packages\Xam.Plugin.HtmlLabel.1.0.4\lib\portable-net45+wp8+wpa81+win8\Plugin.HtmlLabel.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

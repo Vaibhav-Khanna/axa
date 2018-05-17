@@ -16,5 +16,9 @@ namespace AXA.DataStore.Abstraction.Stores
         Task<bool> ArchivePublication(Publication publication);
 
         Task<IEnumerable<Publication>> GetDownloadedPublications();
+
+		Task<bool> LikePublication(string id);
+
+		Task<bool> SavePublication(Publication publication);
     }
 }

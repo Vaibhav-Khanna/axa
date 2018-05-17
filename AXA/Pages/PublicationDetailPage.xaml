@@ -6,7 +6,7 @@
     x:Class="AXA.Pages.PublicationDetailPage"
     Title="Detail">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Share" Icon="share.png" Command="{Binding ShareCommand}" />
+        <!--<ToolbarItem Text="Share" Icon="share.png" Command="{Binding ShareCommand}" />-->
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 
