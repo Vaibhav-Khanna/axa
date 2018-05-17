@@ -168,10 +168,13 @@ namespace AXA.DataStore.Implementation.Stores
                 var response = await _client.PostAsync(uriService, content);
                 var string_content = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {                  
-                    return true;
-                }
+				if (response.IsSuccessStatusCode)
+				{
+					if (!string.IsNullOrEmpty(string_content) && string_content.ToLower().Contains("true"))
+						return true;
+					else
+						return false;
+				}
                 else
                 {
                     return false;
