@@ -15,7 +15,7 @@ namespace AXA
         {
             InitializeComponent();
 
-            BasePageModel.InitApp();
+            BasePageModel.InitApp();                                              
 
             On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
 
